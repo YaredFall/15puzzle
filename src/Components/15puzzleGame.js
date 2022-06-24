@@ -9,7 +9,7 @@ const FIELD_SIZE = 4 //in cells
 // Edit text-[x] (font-size) property to change field scale
 const DEFAULT_TEXT_SIZE = "text-[4em]"
 const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-gray-200";
-const DEFAULT_CELL_STYLING = "bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos";
+const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos";
 
 //let emptyCellPos = {x: 3, y: 3}
 
@@ -28,19 +28,20 @@ export default function XVPuzzleGame({textSize, fieldStyling, cellStyling})
     const cellComponents = () => {
         return cells.map((e) =>
             (<Cell onClick={(event) => {
-                const nearEmpty = (Math.abs(e.pos.x - emptyCellPos.x) === 1 && e.pos.y === emptyCellPos.y) ||
-                    (Math.abs(e.pos.y - emptyCellPos.y) === 1 && e.pos.x === emptyCellPos.x)
-                let newPos = e.pos
-                if (nearEmpty) {
-                    newPos = emptyCellPos
-                    setEmptyCellPos(e.pos)
-                }
-                setCells(prev => {
-                    return prev.map((pe) => (pe.number === e.number ? {...pe, pos: newPos} : pe))
-                })
-                e = {...e, pos: newPos}
-            }
-            } key={e.number} size={cellProps.size} marginSize={cellProps.marginSize} pos={e.pos} content={e.number} styling={cellProps.styling}/>))
+                        const nearEmpty = (Math.abs(e.pos.x - emptyCellPos.x) === 1 && e.pos.y === emptyCellPos.y) ||
+                            (Math.abs(e.pos.y - emptyCellPos.y) === 1 && e.pos.x === emptyCellPos.x)
+                        let newPos = e.pos
+                        if (nearEmpty) {
+                            newPos = emptyCellPos
+                            setEmptyCellPos(e.pos)
+                        }
+                        setCells(prev => {
+                            return prev.map((pe) => (pe.number === e.number ? {...pe, pos: newPos} : pe))
+                        })
+                        e = {...e, pos: newPos}
+                    }
+                } key={e.number} size={cellProps.size} marginSize={cellProps.marginSize} pos={e.pos} content={e.number} styling={cellProps.styling}
+            />))
     }
     
     return (
