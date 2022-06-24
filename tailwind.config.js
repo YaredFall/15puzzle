@@ -7,7 +7,11 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'pos': 'top, right, bottom, left'
+      }
+    }
   },
   plugins: [],
 }

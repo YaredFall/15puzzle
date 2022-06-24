@@ -1,10 +1,14 @@
 import React from 'react';
-import Cell from "./Cell";
 
-export default function GameField({cells, ...otherProps}) {
+export default function GameField({cellComponents, cellProps, fieldSize, styling, ...otherProps}) {
+    const fieldDynamicStyles ={
+        height: `${fieldSize * cellProps.size + (fieldSize + 1) * cellProps.marginSize}em`,
+        width:  `${fieldSize * cellProps.size + (fieldSize + 1) * cellProps.marginSize}em`
+    }
+    
     return (
-        <div id="game-field" className="grid grid-cols-4 w-fit border-black border-solid border-2">
-            {cells}
+        <div id="game-field" style={fieldDynamicStyles} className={ styling } {...otherProps}>
+            {cellComponents}
         </div>
     );
 }

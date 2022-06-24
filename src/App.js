@@ -5,7 +5,7 @@ import XVPuzzleGame from "./Components/15puzzleGame";
 
 function App() {
   return (
-    <div className="bg-gray-200 h-screen w-screen">
+    <div className="bg-gray-200 h-screen w-screen flex items-center justify-center">
       <XVPuzzleGame />
     </div>
   );
