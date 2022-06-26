@@ -1,3 +1,5 @@
+//DEPRECATED
+
 import React, {useState} from 'react';
 import Cell from "./Cell";
 import GameField from "./GameField";

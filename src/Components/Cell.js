@@ -4,7 +4,7 @@ const CONSTANT_STYLING = "flex absolute aspect-square m-0 justify-center items-c
 const CHANGEABLE_STYLING = "h-[4em] bg-gray-500 outline outline-1 outline-black"
 
 export default function Cell({ size, marginSize, pos, content, styling, ...otherProps }) {
-    
+
     function cellDynamicStyles(){
         return  {
             height: `${size}em`,
@@ -14,9 +14,9 @@ export default function Cell({ size, marginSize, pos, content, styling, ...other
     }
     
     return (
-        <div className={CONSTANT_STYLING + " " + styling ?? CHANGEABLE_STYLING} style={cellDynamicStyles()} {...otherProps} >
+        <button className={CONSTANT_STYLING + " " + styling ?? CHANGEABLE_STYLING} style={cellDynamicStyles()} {...otherProps} >
             { content }
-        </div>
+        </button>
         
         
     );
