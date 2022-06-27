@@ -15,7 +15,7 @@ export default function Cell({ size, marginSize, pos, content, styling, ...other
     
     return (
         <button className={CONSTANT_STYLING + " " + styling ?? CHANGEABLE_STYLING} style={cellDynamicStyles()} {...otherProps} >
-            { content }
+            {content}
         </button>
         
         

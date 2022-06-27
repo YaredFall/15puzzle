@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GameField from "./GameField";
 import Cell from "./Cell";
 
@@ -9,21 +9,38 @@ const FIELD_SIZE = 4 // in cells
 
 // Edit text-[x] (font-size) property to change field scale
 const DEFAULT_TEXT_SIZE = "text-[4em]"
-const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-gray-200";
+const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-gray-200 select-none";
 const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos";
 
 const DEFAULT_STARTING_CELL_ORDER = [...Array(FIELD_SIZE*FIELD_SIZE)].map((e, i) => (i)).reverse()
 
+// function OrderFromPositions(positions) {
+//     const order = Array(positions.length);
+//     positions.forEach((e,i) => {
+//         order[e.y * FIELD_SIZE + e.x] = i;
+//     })
+//     return order;
+// }
+
 export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize, fieldStyling, cellStyling}) {
     startingCellOrder ??= DEFAULT_STARTING_CELL_ORDER
     
-    const cellsPositionsFromStartingOrder = (cellNumber) => {
+    const cellPositionFromOrder = (cellNumber) => {
         const cellIndex = startingCellOrder.indexOf(cellNumber)
         return ({x: cellIndex % FIELD_SIZE, y: ~~(cellIndex / FIELD_SIZE)})
     }
     
-    const [cellsPositions, setCellsPositions] = useState(startingCellOrder
-        .map((e, i) => cellsPositionsFromStartingOrder(i)));
+    const cellsPositionsFromStartingOrder = () => {
+        return startingCellOrder.map((e, i) => cellPositionFromOrder(i))
+    }
+    
+    
+    const [cellsPositions, setCellsPositions] = useState([]);
+    
+    useEffect(() => {
+            setCellsPositions(cellsPositionsFromStartingOrder())
+    }, [startingCellOrder]);
+    
     
     const onCellClick = (cellNumber) => () => {
         const emptyCellID = cellsPositions.length-1;
