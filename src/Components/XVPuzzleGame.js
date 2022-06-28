@@ -10,17 +10,21 @@ const FIELD_SIZE = 4 // in cells
 // Edit text-[x] (font-size) property to change field scale
 const DEFAULT_TEXT_SIZE = "text-[4em]"
 const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-gray-200 select-none";
-const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos";
+const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos focus:outline-white";
 
 const DEFAULT_STARTING_CELL_ORDER = [...Array(FIELD_SIZE*FIELD_SIZE)].map((e, i) => (i)).reverse()
 
-// function OrderFromPositions(positions) {
-//     const order = Array(positions.length);
-//     positions.forEach((e,i) => {
-//         order[e.y * FIELD_SIZE + e.x] = i;
-//     })
-//     return order;
-// }
+function OrderFromPosition(position) {
+    return position.y * FIELD_SIZE + position.x;
+}
+
+function OrderFromPositions(positions) {
+    const order = Array(positions.length);
+    positions.forEach((e,i) => {
+        order[OrderFromPosition(e)] = i;
+    })
+    return order;
+}
 
 export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize, fieldStyling, cellStyling}) {
     startingCellOrder ??= DEFAULT_STARTING_CELL_ORDER
@@ -46,7 +50,7 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
         const emptyCellID = cellsPositions.length-1;
         
         const nearEmpty = (Math.abs(cellsPositions[cellNumber].x - cellsPositions[emptyCellID].x) === 1 &&
-            cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y) ||
+                cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y) ||
                                   (Math.abs(cellsPositions[cellNumber].y - cellsPositions[emptyCellID].y) === 1 &&
                 cellsPositions[cellNumber].x === cellsPositions[emptyCellID].x)
         
@@ -67,6 +71,7 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
         content={positionIndex+1}
         size={cellProps.size}
         marginSize={cellProps.marginSize}
+        tabIndex={OrderFromPosition(cellPosition) + 1}
     />)}
     
     const cellProps = {

@@ -6,9 +6,11 @@ function randomInteger(min, max) {
 export async function GenerateSolvablePermutation(fieldSize) {
     const length = fieldSize * fieldSize;
     let randomPermutation = GeneratePermutation(length);
-    while (!IsSolvable(randomPermutation)) {
+
+    while (!IsSolvable(randomPermutation) || IsSolved(randomPermutation)) {
         randomPermutation = GeneratePermutation(length);
     }
+
     return randomPermutation;
 }
 
@@ -22,6 +24,7 @@ function GeneratePermutation(length) {
         result.push(availableElements[randomID]);
         availableElements.splice(randomID, 1);
     }
+
     return result;
 }
 
@@ -43,4 +46,10 @@ function IsSolvable(permutation) {
     count += ~~(permutation.indexOf(n-1) / fieldSize) + 1;
     
     return count % 2 === 0;
+}
+
+export function IsSolved(permutation) {
+    const solvedPermutation = [...Array(16)].map((e,i) => (i));
+    
+    return JSON.stringify(permutation) === JSON.stringify(solvedPermutation);
 }

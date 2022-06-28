@@ -2,6 +2,7 @@ import './App.css';
 import XVPuzzleGame from "./Components/XVPuzzleGame";
 import {useState} from "react";
 import {GenerateSolvablePermutation} from "./XVPuzzleGameStartingVartiantsGenerator";
+import Button from "./Components/Button";
 
 const LAST_CELLS_ORDER_KEY = 'lastCellsOrder';
 
@@ -49,8 +50,8 @@ function App() {
             <h1 className="self-end text-4xl m-[1rem]">{'Moves: ' + movesCount}</h1>
             <XVPuzzleGame startingCellOrder={startingCellsOrder} setMovesCount={setMovesCount}/>
             <div className="flex flex-row justify-between">
-                <button onClick={regenerateCellsOrder} className="text-4xl m-[1rem] flex-1 bg-gray-400 border-black border-2 px-4 rounded-xl">New Game</button>
-                <button onClick={restoreCellsOrder} className="text-4xl m-[1rem] flex-1 bg-gray-400 border-black border-2 px-4 rounded-xl">Restart</button>
+                <Button content={"New Game"} onClick={regenerateCellsOrder} />
+                <Button content={"Restart"} onClick={restoreCellsOrder} />
             </div>
         </div>
     </div>
