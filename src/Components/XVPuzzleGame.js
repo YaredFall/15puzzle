@@ -10,7 +10,8 @@ const FIELD_SIZE = 4 // in cells
 // Edit text-[x] (font-size) property to change field scale
 const DEFAULT_TEXT_SIZE = "text-[4em]"
 const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-gray-200 select-none";
-const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos focus:outline-white";
+const DEFAULT_CELL_STYLING = "cursor-pointer bg-gray-400 border-[0.1em] border-black rounded-[0.375em] transition-pos" +
+    " outline-[1px] focus-visible:border-white";
 
 const DEFAULT_STARTING_CELL_ORDER = [...Array(FIELD_SIZE*FIELD_SIZE)].map((e, i) => (i)).reverse()
 
@@ -45,16 +46,20 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
             setCellsPositions(cellsPositionsFromStartingOrder())
     }, [startingCellOrder]);
     
+    function isNearEmpty(cellNumber) {
+        const emptyCellID = cellsPositions.length-1;
+        
+        const nearHorizontally = (Math.abs(cellsPositions[cellNumber].x - cellsPositions[emptyCellID].x) === 1 &&
+                cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y);
+        const nearVertically = (Math.abs(cellsPositions[cellNumber].y - cellsPositions[emptyCellID].y) === 1 &&
+            cellsPositions[cellNumber].x === cellsPositions[emptyCellID].x);
+        
+        return nearHorizontally || nearVertically;
+    }
     
     const onCellClick = (cellNumber) => () => {
         const emptyCellID = cellsPositions.length-1;
-        
-        const nearEmpty = (Math.abs(cellsPositions[cellNumber].x - cellsPositions[emptyCellID].x) === 1 &&
-                cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y) ||
-                                  (Math.abs(cellsPositions[cellNumber].y - cellsPositions[emptyCellID].y) === 1 &&
-                cellsPositions[cellNumber].x === cellsPositions[emptyCellID].x)
-        
-        if (nearEmpty) {
+        if (isNearEmpty(cellNumber)) {
             const newPositions = [...cellsPositions];
             [newPositions[cellNumber], newPositions[emptyCellID]] = [newPositions[emptyCellID], newPositions[cellNumber]]
             setCellsPositions(newPositions)
@@ -63,15 +68,16 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
     }
     
     const cellAsComponent =  (cellPosition, positionIndex) => {
+        const nearEmpty = isNearEmpty(positionIndex);
         return (<Cell
         key={positionIndex}
-        styling={cellProps.styling}
+        styling={cellProps.styling + (nearEmpty ? "" : " cursor-default")}
         pos={cellPosition}
         onClick={onCellClick(positionIndex)}
         content={positionIndex+1}
         size={cellProps.size}
         marginSize={cellProps.marginSize}
-        tabIndex={OrderFromPosition(cellPosition) + 1}
+        tabIndex={nearEmpty ? OrderFromPosition(cellPosition) + 1 : -1}
     />)}
     
     const cellProps = {

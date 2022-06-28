@@ -47,7 +47,7 @@ function App() {
     return (
     <div className="bg-gray-200 h-screen w-screen flex items-center justify-center">
         <div className="flex flex-col">
-            <h1 className="self-end text-4xl m-[1rem]">{'Moves: ' + movesCount}</h1>
+            <h1 className="self-end text-[2em] mx-[0.75em] my-[0.25em]">{'Moves: ' + movesCount}</h1>
             <XVPuzzleGame startingCellOrder={startingCellsOrder} setMovesCount={setMovesCount}/>
             <div className="flex flex-row justify-between">
                 <Button content={"New Game"} onClick={regenerateCellsOrder} />
