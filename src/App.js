@@ -1,4 +1,3 @@
-import './App.css';
 import XVPuzzleGame from "./Components/XVPuzzleGame";
 import {useState} from "react";
 import {GenerateSolvablePermutation} from "./XVPuzzleGameStartingVartiantsGenerator";
@@ -45,7 +44,7 @@ function App() {
     const [movesCount, setMovesCount] = useState(0);
     
     return (
-    <div className="bg-gray-200 h-screen w-screen flex items-center justify-center">
+    <div className="bg-amber-100 h-screen w-screen flex items-center justify-center">
         <div className="flex flex-col">
             <h1 className="self-end text-[2em] mx-[0.75em] my-[0.25em]">{'Moves: ' + movesCount}</h1>
             <XVPuzzleGame startingCellOrder={startingCellsOrder} setMovesCount={setMovesCount}/>

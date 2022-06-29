@@ -3,10 +3,24 @@
 @tailwind utilities;
 @import-normalize;
 
+
+
 @layer utilities {
     @variants hover, focus {
-    .outline-auto {
-        outline-style: auto;
+        .outline-auto {
+            outline-style: auto;
+        }
     }
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.5s ease-in forwards;
+
     }
 }

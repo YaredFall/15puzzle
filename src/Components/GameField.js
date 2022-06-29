@@ -1,16 +1,14 @@
 import React from 'react';
 
-export default function GameField({fieldSize, styling, cellsPositions, cellProps, ...otherProps}) {
+export default function GameField({fieldSize, cellSize, marginSize, styling, children, ...otherProps}) {
     const fieldDynamicStyles ={
-        height: `${fieldSize * cellProps.size + (fieldSize + 1) * cellProps.marginSize}em`,
-        width:  `${fieldSize * cellProps.size + (fieldSize + 1) * cellProps.marginSize}em`,
+        height: `${fieldSize * cellSize + (fieldSize + 1) * marginSize}em`,
+        width:  `${fieldSize * cellSize + (fieldSize + 1) * marginSize}em`,
     }
-    
-    const cellsAsComponents = cellsPositions.map((e, i ) => cellProps.cellAsComponent(e,i))
 
     return (
-        <div id="game-field" style={fieldDynamicStyles} className={ styling } {...otherProps}>
-            {cellsAsComponents}
+        <div id="game-field" style={fieldDynamicStyles} className={styling} {...otherProps}>
+            {children}
         </div>
     );
 }
