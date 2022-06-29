@@ -6,7 +6,7 @@ export default function GameField({fieldSize, styling, cellsPositions, cellProps
         width:  `${fieldSize * cellProps.size + (fieldSize + 1) * cellProps.marginSize}em`,
     }
     
-    const cellsAsComponents = cellsPositions.slice(0, -1).map((e, i ) => cellProps.cellAsComponent(e,i))
+    const cellsAsComponents = cellsPositions.map((e, i ) => cellProps.cellAsComponent(e,i))
 
     return (
         <div id="game-field" style={fieldDynamicStyles} className={ styling } {...otherProps}>

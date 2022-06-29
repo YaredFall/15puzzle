@@ -58,8 +58,8 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
     }
     
     const onCellClick = (cellNumber) => () => {
-        const emptyCellID = cellsPositions.length-1;
         if (isNearEmpty(cellNumber)) {
+            const emptyCellID = cellsPositions.length-1;
             const newPositions = [...cellsPositions];
             [newPositions[cellNumber], newPositions[emptyCellID]] = [newPositions[emptyCellID], newPositions[cellNumber]]
             setCellsPositions(newPositions)
@@ -90,7 +90,7 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
     return (
         <GameField
             fieldSize={FIELD_SIZE}
-            cellsPositions={cellsPositions}
+            cellsPositions={cellsPositions.slice(0, -1)}
             cellProps={cellProps}
             className={(textSize ?? DEFAULT_TEXT_SIZE) + ' ' + (fieldStyling ?? DEFAULT_FIELD_STYLING)
         }/>
