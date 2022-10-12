@@ -9,7 +9,7 @@ let randomCellsOrder = [];
 
 function LoadLastOrder() {
     const lastOrder = localStorage.getItem(LAST_CELLS_ORDER_KEY);
-    if (lastOrder) {
+    if (lastOrder && lastOrder !== "[]") {
         randomCellsOrder = JSON.parse(lastOrder)
     }
     else {

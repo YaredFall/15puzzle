@@ -21,17 +21,28 @@ function OrderFromPosition(position) {
     return position.y * FIELD_SIZE + position.x;
 }
 
-function OrderFromPositions(positions) {
-    const order = Array(positions.length);
-    positions.forEach((e,i) => {
-        order[OrderFromPosition(e)] = i;
-    })
-    return order;
-}
+// function OrderFromPositions(positions) {
+//     const order = Array(positions.length);
+//     positions.forEach((e,i) => {
+//         order[OrderFromPosition(e)] = i;
+//     })
+//     return order;
+// }
 
 export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize, fieldStyling, cellStyling}) {
     startingCellOrder ??= DEFAULT_STARTING_CELL_ORDER
-    
+
+    const swapWithEmpty = (cellNumber) => {
+        const emptyCellID = cellsPositions.length-1;
+        const newPositions = [...cellsPositions];
+        [newPositions[cellNumber], newPositions[emptyCellID]] = [newPositions[emptyCellID], newPositions[cellNumber]]
+        setCellsPositions(newPositions)
+    }
+
+    const increaseMovesCount = () => {
+        setMovesCount(prevCount => prevCount + 1);
+    }
+
     const cellPositionFromOrder = (cellNumber) => {
         const cellIndex = startingCellOrder.indexOf(cellNumber)
         return ({x: cellIndex % FIELD_SIZE, y: ~~(cellIndex / FIELD_SIZE)})
@@ -40,33 +51,82 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
     const cellsPositionsFromStartingOrder = () => {
         return startingCellOrder.map((e, i) => cellPositionFromOrder(i))
     }
-    
-    
-    const [cellsPositions, setCellsPositions] = useState([]);
-    
-    useEffect(() => {
-            setCellsPositions(cellsPositionsFromStartingOrder())
-    }, [startingCellOrder]);
-    
-    function isNearEmpty(cellNumber) {
+
+    const isNearEmpty = (cellNumber) => {
         const emptyCellID = cellsPositions.length-1;
-        
+
         const nearHorizontally = (Math.abs(cellsPositions[cellNumber].x - cellsPositions[emptyCellID].x) === 1 &&
-                cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y);
+            cellsPositions[cellNumber].y === cellsPositions[emptyCellID].y);
         const nearVertically = (Math.abs(cellsPositions[cellNumber].y - cellsPositions[emptyCellID].y) === 1 &&
             cellsPositions[cellNumber].x === cellsPositions[emptyCellID].x);
-        
+
         return nearHorizontally || nearVertically;
     }
-    
+
     const onCellClick = (cellNumber) => () => {
+<<<<<<< Updated upstream
             const emptyCellID = cellsPositions.length-1;
             const newPositions = [...cellsPositions];
             [newPositions[cellNumber], newPositions[emptyCellID]] = [newPositions[emptyCellID], newPositions[cellNumber]]
             setCellsPositions(newPositions)
             setMovesCount(prevCount => prevCount + 1)
+=======
+        if (isNearEmpty(cellNumber)) {
+            swapWithEmpty(cellNumber);
+            increaseMovesCount();
+        }
+>>>>>>> Stashed changes
     }
-    
+
+    const onArrowKeysInput = (e) => {
+        console.log(cellsPositions)
+        const emptyCellPos = cellsPositions.at(-1);
+        switch (e.key) {
+            case "ArrowUp":
+                if (emptyCellPos.y < FIELD_SIZE - 1) // not in the last row
+                {
+                    swapWithEmpty(cellsPositions.findIndex(p => p.x === emptyCellPos.x && p.y === emptyCellPos.y + 1))
+                    increaseMovesCount()
+                }
+                break;
+            case "ArrowRight":
+                if (emptyCellPos.x > 0) // not in the first column
+                {
+                    swapWithEmpty(cellsPositions.findIndex(p => p.x === emptyCellPos.x - 1 && p.y === emptyCellPos.y))
+                    increaseMovesCount()
+                }
+                break;
+            case "ArrowDown":
+                if (emptyCellPos.y > 0) // not in the first row
+                {
+                    swapWithEmpty(cellsPositions.findIndex(p => p.x === emptyCellPos.x && p.y === emptyCellPos.y - 1))
+                    increaseMovesCount()
+                }
+                break;
+            case "ArrowLeft":
+                if (emptyCellPos.x < FIELD_SIZE - 1) // not in the last column
+                {
+                    swapWithEmpty(cellsPositions.findIndex(p => p.x === emptyCellPos.x + 1 && p.y === emptyCellPos.y))
+                    increaseMovesCount()
+                }
+                break;
+            default: break;
+        }
+    }
+
+    const [cellsPositions, setCellsPositions] = useState([]);
+
+    useEffect(() => {
+            setCellsPositions(cellsPositionsFromStartingOrder())
+    }, [startingCellOrder]);
+
+    useEffect(() => {
+        document.addEventListener("keydown", onArrowKeysInput)
+        return () => {
+            document.removeEventListener("keydown", onArrowKeysInput)
+        }
+    }, [cellsPositions]);
+
     const cellAsComponent =  (cellPosition, positionIndex) => {
         const nearEmpty = isNearEmpty(positionIndex);
         return (<Cell
@@ -86,6 +146,7 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
         styling: cellStyling ?? DEFAULT_CELL_STYLING,
         cellAsComponent
     }
+<<<<<<< Updated upstream
     
     const cellsAsComponents = cellsPositions.slice(0, -1).map((e, i ) => cellProps.cellAsComponent(e,i))
     
@@ -93,6 +154,9 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
         <WinCongrats>Congratulations!</WinCongrats> :
         cellsAsComponents;
     
+=======
+
+>>>>>>> Stashed changes
     return (
         <GameField
             fieldSize={FIELD_SIZE}
