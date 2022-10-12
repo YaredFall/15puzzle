@@ -19,7 +19,7 @@ export default function Cell({ size, marginSize, pos, content, styling, ...other
     useEffect(() => {
         if (tabIndex < 0)
             cellRef.current.blur();
-    }, [tabIndex])
+    })
     
     return (
         <button ref={cellRef} className={CONSTANT_STYLING + " " + styling ?? CHANGEABLE_STYLING} style={cellDynamicStyles()} {...otherProps} >

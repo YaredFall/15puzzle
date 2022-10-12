@@ -21,13 +21,13 @@ function OrderFromPosition(position) {
     return position.y * FIELD_SIZE + position.x;
 }
 
-// function OrderFromPositions(positions) {
-//     const order = Array(positions.length);
-//     positions.forEach((e,i) => {
-//         order[OrderFromPosition(e)] = i;
-//     })
-//     return order;
-// }
+function OrderFromPositions(positions) {
+    const order = Array(positions.length);
+    positions.forEach((e,i) => {
+        order[OrderFromPosition(e)] = i;
+    })
+    return order;
+}
 
 export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize, fieldStyling, cellStyling}) {
     startingCellOrder ??= DEFAULT_STARTING_CELL_ORDER
@@ -64,22 +64,13 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
     }
 
     const onCellClick = (cellNumber) => () => {
-<<<<<<< Updated upstream
-            const emptyCellID = cellsPositions.length-1;
-            const newPositions = [...cellsPositions];
-            [newPositions[cellNumber], newPositions[emptyCellID]] = [newPositions[emptyCellID], newPositions[cellNumber]]
-            setCellsPositions(newPositions)
-            setMovesCount(prevCount => prevCount + 1)
-=======
         if (isNearEmpty(cellNumber)) {
             swapWithEmpty(cellNumber);
             increaseMovesCount();
         }
->>>>>>> Stashed changes
     }
 
     const onArrowKeysInput = (e) => {
-        console.log(cellsPositions)
         const emptyCellPos = cellsPositions.at(-1);
         switch (e.key) {
             case "ArrowUp":
@@ -131,39 +122,27 @@ export default function XVPuzzleGame({startingCellOrder, setMovesCount, textSize
         const nearEmpty = isNearEmpty(positionIndex);
         return (<Cell
         key={positionIndex}
-        styling={cellProps.styling + (nearEmpty ? "" : " cursor-default")}
+        styling={(cellStyling ?? DEFAULT_CELL_STYLING) + (nearEmpty ? "" : " cursor-default")}
         pos={cellPosition}
         onClick={nearEmpty ? onCellClick(positionIndex) : null}
         content={positionIndex+1}
-        size={cellProps.size}
-        marginSize={cellProps.marginSize}
+        size={CELL_SIZE}
+        marginSize={MARGIN_SIZE}
         tabIndex={nearEmpty ? OrderFromPosition(cellPosition) + 1 : -1}
     />)}
-    
-    const cellProps = {
-        size: CELL_SIZE,
-        marginSize: MARGIN_SIZE,
-        styling: cellStyling ?? DEFAULT_CELL_STYLING,
-        cellAsComponent
-    }
-<<<<<<< Updated upstream
-    
-    const cellsAsComponents = cellsPositions.slice(0, -1).map((e, i ) => cellProps.cellAsComponent(e,i))
+
+    const cellsAsComponents = cellsPositions.slice(0, -1).map((e, i ) => cellAsComponent(e,i))
     
     const gameFieldContent = IsSolved(OrderFromPositions(cellsPositions)) ?
         <WinCongrats>Congratulations!</WinCongrats> :
         cellsAsComponents;
-    
-=======
 
->>>>>>> Stashed changes
     return (
         <GameField
             fieldSize={FIELD_SIZE}
             cellSize={CELL_SIZE}
             marginSize={MARGIN_SIZE}
             children={gameFieldContent}
-            cellProps={cellProps}
             className={(textSize ?? DEFAULT_TEXT_SIZE) + ' ' + (fieldStyling ?? DEFAULT_FIELD_STYLING)}
         />
     );
