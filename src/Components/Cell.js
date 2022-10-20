@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 
 const CONSTANT_STYLING = "flex absolute aspect-square m-0 justify-center items-center box-border";
-const CHANGEABLE_STYLING = "h-[4em] bg-gray-500 outline outline-1 outline-black focus:outline-white"
+const CHANGEABLE_STYLING = "h-[4em] bg-gray-500 outline outline-1 outline-black focus:outline-accent"
 
 export default function Cell({ size, marginSize, pos, content, styling, ...otherProps }) {
 

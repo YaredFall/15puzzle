@@ -13,8 +13,11 @@ function LoadLastOrder() {
         randomCellsOrder = JSON.parse(lastOrder)
     }
     else {
-        GenerateSolvablePermutation(4).then((permutation) => randomCellsOrder = permutation)
-        SaveOrder(randomCellsOrder)
+        GenerateSolvablePermutation(4).then((permutation) => {
+            randomCellsOrder = permutation;
+            SaveOrder(randomCellsOrder);
+        })
+
     }
 }
 
@@ -44,7 +47,7 @@ function App() {
     const [movesCount, setMovesCount] = useState(0);
     
     return (
-    <div className="bg-amber-100 h-screen w-screen flex items-center justify-center">
+    <div className="bg-tertiary h-[100%] w-screen flex items-center justify-center">
         <div className="flex flex-col">
             <h1 className="self-end text-[2em] mx-[0.75em] my-[0.25em]">{'Moves: ' + movesCount}</h1>
             <XVPuzzleGame startingCellOrder={startingCellsOrder} setMovesCount={setMovesCount}/>

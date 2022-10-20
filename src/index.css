@@ -6,6 +6,15 @@
 
 
 @layer utilities {
+
+    html {
+        @apply text-primary;
+    }
+
+    html, body, #root {
+        @apply h-screen;
+    }
+
     @variants hover, focus {
         .outline-auto {
             outline-style: auto;

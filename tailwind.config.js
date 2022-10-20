@@ -10,6 +10,13 @@ module.exports = {
     extend: {
       transitionProperty: {
         'pos': 'top, right, bottom, left'
+      },
+      colors: {
+        'accent': '#8d9cb9',
+        'primary': '#f5f5f5',
+        'secondary': '#76777f',
+        'tertiary': '#474954',
+        'quaternary': '#383942'
       }
     }
   },

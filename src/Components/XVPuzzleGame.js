@@ -6,14 +6,14 @@ import WinCongrats from "./WinCongrats";
 
 
 const CELL_SIZE = 2 // in em
-const MARGIN_SIZE = 0.03 // in em
+const MARGIN_SIZE = 0.03125 // in em
 const FIELD_SIZE = 4 // in cells
 
 // Edit text-[x] (font-size) property to change field scale
 const DEFAULT_TEXT_SIZE = "text-[4em]"
-const DEFAULT_FIELD_STYLING = "relative box-content border-black border-[0.1em] rounded-[0.5em] bg-yellow-300 select-none overflow-hidden";
-const DEFAULT_CELL_STYLING = "cursor-pointer bg-blue-200 border-[0.1em] border-black rounded-[0.375em] transition-pos" +
-    " outline-[1px] focus-visible:border-white";
+const DEFAULT_FIELD_STYLING = "relative box-content bg-quaternary select-none overflow-hidden";
+const DEFAULT_CELL_STYLING = "cursor-pointer bg-secondary text-primary transition-pos" +
+    " focus-visible:outline-accent focus-visible:z-[10]";
 
 const DEFAULT_STARTING_CELL_ORDER = [...Array(FIELD_SIZE*FIELD_SIZE)].map((e, i) => (i)).reverse()
 
